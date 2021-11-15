@@ -12,15 +12,19 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.Dilevery_app"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".Regester_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".Order_Placed_Activity"
+            android:exported="true" />
+        <activity
+            android:name=".Track_Order_Activity"
+            android:exported="true" />
         <activity
             android:name=".login_screen"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.LoginStyle"
-            >
-
-
-        </activity>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar.LoginStyle" />
         <activity
             android:name=".payment_activity"
             android:exported="true"
@@ -32,12 +36,11 @@
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

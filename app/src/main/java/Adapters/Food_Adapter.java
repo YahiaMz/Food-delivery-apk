@@ -19,9 +19,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
@@ -30,6 +32,9 @@ import com.aplication.dilevery_app.Fragments.Cart_Fragment;
 import com.aplication.dilevery_app.HELPER;
 import com.aplication.dilevery_app.R;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +86,7 @@ public class Food_Adapter extends RecyclerView.Adapter<Food_Adapter.Food_VH> {
 
          Food current_Item = foods.get(position);
          System.out.println(current_Item.getImage());
-         Picasso.get().load(HELPER.URL + "/foods_images/"+current_Item.getImage()).into(holder.food_image);
+         Picasso.get().load(HELPER.FOOD_IMAGES+current_Item.getImage()).into(holder.food_image);
 
          holder.food_name.setText(foods.get(position).getName() );
          holder.food_price.setText(foods.get(position).getPrice()+" Da");
@@ -91,27 +96,6 @@ public class Food_Adapter extends RecyclerView.Adapter<Food_Adapter.Food_VH> {
              @Override
              public void onClick(View v) {
 
-                /* int p;
-                  if(Cart_Adapter.items == null){
-                       p = Cart_Fragment.has(current_Item.getId());
-                      if (p != -1) {
-                      Cart_Fragment.items.get(p).setQuantity(Cart_Adapter.items.get(p).getQuantity() + 1);
-                        }
-                      else { Cart_Fragment.items.add(new Cart_Item(current_Item.getId(), current_Item.getName() , current_Item.getPrice() , current_Item.getImage() )); }
-
-                  } else {
-
-                       p = Cart_Adapter.has(current_Item.getId());
-                      if (p != -1) {
-                          Cart_Fragment.items.get(p).setQuantity(Cart_Adapter.items.get(p).getQuantity() + 1); }
-                          else {
-                          Cart_Fragment.items.add(new Cart_Item(current_Item.getId(), current_Item.getName() ,
-                                  current_Item.getPrice() , current_Item.getImage() ));
-
-                          }
-
-                  }
-*/
                  addFood_toCart(current_Item.getId());
 
 
@@ -168,17 +152,37 @@ private  void addFood_toCart( int product_id ) {
                 public void onResponse(String response) {
                   //  Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
 
+                    try {
+                        JSONObject mJSONResponse = new JSONObject(response);
+                        if(mJSONResponse.getBoolean("success")) {
 
-                    Toast toast = new Toast(context);
-                    toast.setGravity(Gravity.BOTTOM,0 , 150);
-                    toast.setDuration(Toast.LENGTH_SHORT);
-                    toast.setView(LayoutInflater.from(context).inflate(R.layout.succes_taost , null , false));
-                    toast.show();
+                            Toast toast = new Toast(context);
+                            toast.setGravity(Gravity.BOTTOM,0 , 150);
+                            toast.setDuration(Toast.LENGTH_SHORT);
+                            View view = LayoutInflater.from(context).inflate(R.layout.succes_taost , null);
+                            TextView txt = view.findViewById(R.id.successToastText);
+                            txt.setText("faill meesag");
+                            toast.setView(LayoutInflater.from(context).inflate(R.layout.succes_taost , null , false));
+                            toast.show();
+
+                        } else {
+                            Toast.makeText(context.getApplicationContext(), "Sorry , Something Wrong !", Toast.LENGTH_SHORT).show();
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+
+                        Toast.makeText(context.getApplicationContext(), "Something Wrong !", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
             }, new Response.ErrorListener() {
         @Override
         public void onErrorResponse(VolleyError error) {
 
+             if(error instanceof NoConnectionError || error instanceof TimeoutError) {
+                 Toast.makeText(context.getApplicationContext(), " No Internet Connection  !", Toast.LENGTH_SHORT).show();
+             }
         }
     }
     ) {

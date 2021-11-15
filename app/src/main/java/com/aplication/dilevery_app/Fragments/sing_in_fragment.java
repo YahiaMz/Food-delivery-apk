@@ -120,6 +120,7 @@ public class sing_in_fragment extends Fragment {
                         mEditor.putBoolean("is_login" , true);
                         mEditor.putString("token" , mResponseJsonObject.getString("token"));
                         mEditor.putString("phone_number" , mUserData.getString("phone_number"));
+                        mEditor.putString("photo" , mResponseJsonObject.getString("profile_photo_url"));
 
                         mEditor.apply();
 
@@ -128,6 +129,7 @@ public class sing_in_fragment extends Fragment {
 
                         Intent intent = new Intent(getContext() , MainActivity.class);
                         startActivity(intent);
+                        getActivity().finish();
 
 
                     } else  {

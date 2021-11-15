@@ -6,4 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".Phone_Number_Activivty">
 
+    <EditText
+        android:drawableStart="@drawable/phone_icon_selector"
+        android:paddingStart="8dp"
+        android:drawablePadding="12dp"
+        android:id="@+id/textView12"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/custom_edit_text001"
+        android:fontFamily="@font/sf_regular"
+        android:hint="Enter your phone number"
+        android:paddingHorizontal="8dp"
+        android:singleLine="true"
+        android:textSize="14dp"
+        android:inputType="phone"
+        app:layout_constraintBottom_toTopOf="@+id/sendPhoneNumber_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_bias="0.15" />
+
+    <Button
+        android:id="@+id/sendPhoneNumber_btn"
+        android:layout_width="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:fontFamily="@font/sf_regular"
+        android:textColor="@color/white"
+        android:background="@drawable/add_to_cart_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

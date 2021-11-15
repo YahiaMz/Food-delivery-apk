@@ -17,4 +17,6 @@
     <color name="light_Grey">#E0E0E0</color>
     <color name="blue">#2050FF</color>
     <color name="light_grey">#999999</color>
+    <color name="iosGreen">#34C759</color>
+    <color name="red_ios">#FF3C30</color>
 </resources>

@@ -14,10 +14,11 @@
         android:layout_alignParentEnd="true"
         android:layout_marginTop="16dp"
         android:text="My Favourite"
+        android:fontFamily="@font/sf_regular"
         android:textColor="@color/grey"
         android:textStyle="bold"
 
-        android:textSize="18dp"
+        android:textSize="19dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

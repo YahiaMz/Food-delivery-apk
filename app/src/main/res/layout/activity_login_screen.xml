@@ -10,7 +10,7 @@
         android:foreground="@drawable/forground_login"
         android:id="@+id/imageView5"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="230dp"
         android:scaleType="fitXY"
         android:src="@drawable/pizza_for_login1"
         app:layout_constraintEnd_toEndOf="parent"

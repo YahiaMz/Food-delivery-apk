@@ -16,6 +16,15 @@ public class Cart_Item {
     private  String  description;
     private  String image;
 
+    public int getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(int product_id) {
+        this.product_id = product_id;
+    }
+
+    private  int product_id;
     public String getDescription() {
         return description;
     }
@@ -27,13 +36,14 @@ public class Cart_Item {
     private  int quantity;
 
 
-    public Cart_Item(int id, String name, int price, String image, int quantity, String description) {
+    public Cart_Item(int id, String name, int price, String image, int quantity, String description, int product_id) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.description = description;
         this.image = image;
         this.quantity = quantity;
+        this.product_id = product_id;
     }
 
    /* public Cart_Item(int id, String name, int price, String image, int quantity) {

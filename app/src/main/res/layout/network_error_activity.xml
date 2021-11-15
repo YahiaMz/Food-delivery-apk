@@ -7,6 +7,7 @@
    >
 
     <LinearLayout
+        android:layout_marginHorizontal="8dp"
         app:layout_constraintHeight_percent=".8"
         android:gravity="center"
         android:layout_width="0dp"
@@ -21,7 +22,7 @@
             android:id="@+id/messageError_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Something Wrong !"
+            android:text="No Network Connection !"
             android:gravity="center"
             android:textSize="24dp"
             android:textColor="@color/text_color"
@@ -31,10 +32,11 @@
             />
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="280dp"
+            android:layout_height="280dp"
             android:scaleType="centerInside"
-            android:src="@drawable/ic_robot_error"
+            android:src="@drawable/ic_offline"
+
             >
 
         </ImageView>

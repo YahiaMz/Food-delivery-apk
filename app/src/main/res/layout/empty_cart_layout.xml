@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:gravity="center"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintWidth_percent=".6"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -23,9 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/sf_regular"
-        android:text="Your cart is Empty !"
+        android:text="Your cart is Empty : ( "
         android:textAllCaps="false"
-        android:textColor="@color/orange"
+        android:textColor="@color/grey"
         android:textSize="24dp"
         android:textStyle="bold"
         android:layout_marginBottom="8dp"
@@ -33,10 +33,10 @@
 
         <ImageView
             android:layout_marginTop="8dp"
-        android:id="@+id/imageView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-            android:src="@drawable/ic_shopping_bag"
+            android:id="@+id/imageView3"
+            android:layout_width="230dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_clear_cart"
         />
     </LinearLayout>
 

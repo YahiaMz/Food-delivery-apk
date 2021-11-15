@@ -16,19 +16,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.aplication.dilevery_app.Food_Details;
 import com.aplication.dilevery_app.HELPER;
-import com.aplication.dilevery_app.MainActivity;
 import com.aplication.dilevery_app.R;
 import com.aplication.dilevery_app.payment_activity;
 
@@ -38,7 +37,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import Adapters.Cart_Adapter;
-import Adapters.Food_Adapter;
 import Models.Cart_Item;
 
 
@@ -47,8 +45,8 @@ public class Cart_Fragment extends Fragment {
     private RecyclerView cart_Rv;
     private Button bCheckout;
 
-    private Cart_Adapter cart_adapter;
-    public static ArrayList<Cart_Item> items;
+    public  Cart_Adapter cart_adapter;
+    private  ArrayList<Cart_Item> items;
     public static TextView total_price;
     private SharedPreferences mSharedPreferences;
 
@@ -62,8 +60,12 @@ public class Cart_Fragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.view = inflater.inflate(R.layout.cart_fragment , container , false);
         init( );
-        return  view;
+        return view;
     }
+
+
+
+
 
     private void init() {
 
@@ -75,12 +77,6 @@ public class Cart_Fragment extends Fragment {
 
             fill_json_data();
 
-
-        this.cart_adapter = new Cart_Adapter(getContext() , items);
-        this.cart_Rv.setAdapter(cart_adapter);
-        LinearLayoutManager llm= new LinearLayoutManager(view.getContext());
-        llm.setOrientation(RecyclerView.VERTICAL);
-        this.cart_Rv.setLayoutManager(llm);
         this.total_price.setText(this.get_total(this.items) + " Da");
 
 
@@ -88,10 +84,10 @@ public class Cart_Fragment extends Fragment {
         this.bCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-        Intent toPayment_Actvity = new Intent(getContext() , payment_activity.class);
-        toPayment_Actvity.putExtra("total_price" , get_total(items) + " Da");
-        startActivity(toPayment_Actvity);
-
+              Intent toPayment_Activity = new Intent(getContext() , payment_activity.class);
+              toPayment_Activity.putExtra("total_price" , get_total(items) + " Da");
+              startActivity(toPayment_Activity);
+              ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout , new Empty_cart_Fragment()).commit();
             }
         });
 
@@ -121,17 +117,9 @@ public class Cart_Fragment extends Fragment {
     }
 
 
-    public  static  int has(int id) {
-        for (int x = 0 ; x<items.size() ; x++) {
-            if(items.get(x).getId() == id){
-                return x;
-            }
-        }
-        return -1;
-    }
 
 
-    private  void fill_json_data( ){
+    public  void fill_json_data( ){
 
         items = new ArrayList<>();
 
@@ -141,7 +129,7 @@ public class Cart_Fragment extends Fragment {
         mProgressDialog.show();
 
         RequestQueue mQueue = Volley.newRequestQueue(getContext());
-        StringRequest mRequest = new StringRequest(Request.Method.GET, HELPER.CART_ITEMS + mSharedPreferences.getInt("id", -1),
+        StringRequest mRequest = new StringRequest(Request.Method.GET, HELPER.CART_ITEMS  +mSharedPreferences.getInt("id", -1),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -169,9 +157,11 @@ public class Cart_Fragment extends Fragment {
                                                 , mProduct.getString("name"),
                                                 mProduct.getInt("price"),
                                                 mProduct.getString("image")
-                                                , mDataObject.getInt("quantity"),
-                                                mProduct.getString("description")
-                                        ));
+                                                , mDataObject.getInt("qu" +
+                                                "antity"),
+                                                mProduct.getString("description"),
+                                                mDataObject.getInt("product_id")
+                                                ));
 
                                     }
                                     cart_adapter = new Cart_Adapter(getContext(), items);
@@ -188,25 +178,30 @@ public class Cart_Fragment extends Fragment {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            Toast.makeText(getContext(), "Exception"+ e.getMessage(), Toast.LENGTH_LONG).show();
-
                             mProgressDialog.dismiss();
-                            Intent intent = new Intent(getContext(), Empty_cart_Fragment.class);
-                            startActivity(intent);
 
+                            ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout , new Error_Fragment()).commit();
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 mProgressDialog.dismiss();
-                Intent intent = new Intent(getContext(), Empty_cart_Fragment.class);
-                startActivity(intent);
+                Fragment selected_Error = null;
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                    selected_Error = new Network_error_Fragment();
+                 } else {
+                    selected_Error = new Error_Fragment();
+                }
+                     ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout , selected_Error).commit();
             }
         });
 
         mQueue.add(mRequest);
     }
+
+
+
 }
 

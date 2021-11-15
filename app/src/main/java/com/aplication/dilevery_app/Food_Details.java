@@ -66,7 +66,7 @@ public class Food_Details extends AppCompatActivity {
 
 
         String imageUrl = bundle.getString("image");
-        Picasso.get().load(HELPER.URL + "/foods_images/"+imageUrl).into(food_image);
+        Picasso.get().load(HELPER.FOOD_IMAGES+imageUrl).into(food_image);
         this.price.setText(bundle.getInt("price") +" DA");
         this.name.setText(bundle.getString("name"));
         this.description.setText(bundle.getString("desc"));
@@ -77,6 +77,7 @@ public class Food_Details extends AppCompatActivity {
                 addCart();
             }
         });
+
         this.increment_Quantity();
         this.decrement_Quantity();
 

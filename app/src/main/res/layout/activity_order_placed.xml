@@ -6,4 +6,62 @@
     android:layout_height="match_parent"
     tools:context=".Order_Placed_Activity">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/back_to_homeBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            app:srcCompat="@drawable/order_placed_icon" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/sf_medium"
+            android:gravity="center"
+            android:text="Order Success"
+            android:textColor="@color/black"
+            android:textSize="24dp"
+            android:textStyle="bold"></TextView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/sf_regular"
+            android:gravity="center"
+            android:paddingHorizontal="16dp"
+            android:text="Your packet will be sent to Your address . Thanks for order"
+            android:textColor="#AA505050"
+            android:textSize="20dp"></TextView>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/back_to_homeBtn"
+        android:layout_marginBottom="16dp"
+        android:layout_width="0dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_height="wrap_content"
+        android:text="Back to Home"
+        android:background="@drawable/add_to_cart_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

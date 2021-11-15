@@ -2,6 +2,7 @@ package Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,16 +12,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.aplication.dilevery_app.Fragments.Cart_Fragment;
+import com.aplication.dilevery_app.HELPER;
 import com.aplication.dilevery_app.R;
 
 import org.w3c.dom.Text;
 
 import java.lang.invoke.ConstantCallSite;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Models.Cart_Item;
 import Models.Favourite_model;
@@ -30,10 +42,12 @@ public class Favourite_adapter extends RecyclerView.Adapter<Favourite_adapter.Fa
 
     private ArrayList<Favourite_model> favourites;
     private Context mContext;
+    private SharedPreferences mSharedPreferences;
 
     public Favourite_adapter(ArrayList<Favourite_model> favourites, Context mContext) {
         this.favourites = favourites;
         this.mContext = mContext;
+        this.mSharedPreferences = mContext.getSharedPreferences("User_Data" , Context.MODE_PRIVATE);
     }
 
 
@@ -55,40 +69,7 @@ public class Favourite_adapter extends RecyclerView.Adapter<Favourite_adapter.Fa
         holder.bAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                     Favourite_model current_Item = favourites.get(position);
-
-                int p;
-                if(Cart_Adapter.items == null){
-                    p = Cart_Fragment.has(current_Item.getId());
-                    if (p != -1) {
-                        Cart_Fragment.items.get(p).setQuantity(Cart_Adapter.items.get(p).getQuantity() + 1);
-                    }
-                    else { Cart_Fragment.items.add(new Cart_Item(current_Item.getId(), current_Item.getName() , current_Item.getPrice()  , "" )); }
-
-                } else {
-
-                    p = Cart_Adapter.has(current_Item.getId());
-                    if (p != -1) {
-                        Cart_Fragment.items.get(p).setQuantity(Cart_Adapter.items.get(p).getQuantity() + 1); }
-                    else {
-                        Cart_Fragment.items.add(new Cart_Item(current_Item.getId(), current_Item.getName() ,
-                                current_Item.getPrice() , "" ));
-
-                    }
-
-                }
-
-                Toast toast = new Toast(mContext);
-
-                toast.setGravity(Gravity.BOTTOM,0 , 150);
-                toast.setDuration(Toast.LENGTH_LONG);
-                toast.setView(LayoutInflater.from(mContext).inflate(R.layout.succes_taost , null , false));
-                toast.show();
-
-
-
-
-
+                addFood_toCart(current_item.getId());
             }
         });
 
@@ -113,4 +94,53 @@ public class Favourite_adapter extends RecyclerView.Adapter<Favourite_adapter.Fa
             this.bAdd = itemView.findViewById(R.id.addFood_btn);
         }
     }
+
+
+    private  void addFood_toCart( int product_id ) {
+        RequestQueue queue = Volley.newRequestQueue(mContext);
+        StringRequest request = new StringRequest(
+                Request.Method.POST, HELPER.ADD_TO_CART,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                         Toast.makeText(mContext, response, Toast.LENGTH_SHORT).show();
+
+
+                        Toast toast = new Toast(mContext);
+                        toast.setGravity(Gravity.BOTTOM,0 , 150);
+                        toast.setDuration(Toast.LENGTH_SHORT);
+                        toast.setView(LayoutInflater.from(mContext).inflate(R.layout.succes_taost , null , false));
+                        toast.show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        }
+        ) {
+            @Nullable
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String , String> params = new HashMap<>();
+                params.put("user_id" , mSharedPreferences.getInt("id" , -1)  +"" );
+                params.put("quantity" , "1" );
+                params.put("product_id" ,  product_id +"");
+
+                return  params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                System.out.println("token : " + mSharedPreferences.getString("token" , "") );
+                Map<String , String> params = new HashMap<>();
+                params.put("Authorization" , "Bearer "+ mSharedPreferences.getString("token" , ""));
+                return params;
+            }
+        };
+
+
+        queue.add(request);
+    }
+
 }

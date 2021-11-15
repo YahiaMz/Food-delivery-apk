@@ -14,18 +14,16 @@ import com.aplication.dilevery_app.HELPER;
 import com.aplication.dilevery_app.R;
 import com.squareup.picasso.Picasso;
 
-import java.nio.InvalidMarkException;
 import java.util.ArrayList;
 
-import Models.Food;
 import Models.Food_Order;
 
-public class Items_item_order_Adapter extends RecyclerView.Adapter<Items_item_order_Adapter.this_Vh> {
+public class Food_order_item_Adapter extends RecyclerView.Adapter<Food_order_item_Adapter.this_Vh> {
 
     private ArrayList<Food_Order> food_orders ;
     private Context mContext;
 
-    public Items_item_order_Adapter(ArrayList<Food_Order> food_orders, Context mContext) {
+    public Food_order_item_Adapter(ArrayList<Food_Order> food_orders, Context mContext) {
         this.food_orders = food_orders;
         this.mContext = mContext;
     }
@@ -43,7 +41,7 @@ public class Items_item_order_Adapter extends RecyclerView.Adapter<Items_item_or
 
         Food_Order current_Item = this.food_orders.get(position);
 
-        Picasso.get().load(HELPER.URL + "/").into(holder.foodImage);
+        Picasso.get().load(HELPER.FOOD_IMAGES+current_Item.getImage()).into(holder.foodImage);
         holder.food_Quantity.setText("x" + current_Item.getQuantity() );
         holder.food_name.setText(current_Item.getName() );
 

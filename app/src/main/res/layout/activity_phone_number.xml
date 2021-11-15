@@ -9,7 +9,11 @@
 
 
     <EditText
-        android:id="@+id/textView12"
+        android:drawableStart="@drawable/phone_icon_selector"
+        android:paddingStart="8dp"
+        android:drawablePadding="12dp"
+        android:id="@+id/phone_NumberEditTEXT"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
@@ -20,15 +24,15 @@
         android:singleLine="true"
         android:textSize="14dp"
         android:inputType="phone"
-        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintBottom_toTopOf="@+id/sendPhoneNumber_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        app:layout_constraintVertical_bias="0.10" />
+        app:layout_constraintVertical_bias="0.15" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/sendPhoneNumber_btn"
         android:layout_width="0dp"
         android:layout_marginHorizontal="24dp"
         android:layout_height="wrap_content"

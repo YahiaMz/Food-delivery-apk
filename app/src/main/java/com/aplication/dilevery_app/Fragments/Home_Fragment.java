@@ -1,29 +1,38 @@
 package com.aplication.dilevery_app.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.aplication.dilevery_app.HELPER;
 import com.aplication.dilevery_app.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +50,9 @@ import Models.Food;
 public class Home_Fragment extends Fragment {
 
 
+    private TextView user_name;
+    private ImageView user_image;
+    //--------------------------------------------------//
     private RecyclerView categories_RV;
     private Category_Adapter category_adapter;
     private ArrayList<Category> my_categories;
@@ -48,8 +60,9 @@ public class Home_Fragment extends Fragment {
     public static RecyclerView foodRV;
     public static Food_Adapter food_adapter;
     public static ArrayList<Food> foods = new ArrayList<>();
-
     // --------------------------------------------------- //
+
+    SharedPreferences mSharedPreferences;
 
 
 
@@ -64,6 +77,16 @@ public class Home_Fragment extends Fragment {
     }
 
     void  init( ) {
+        this.mSharedPreferences = getActivity().getSharedPreferences("User_Data" , Context.MODE_PRIVATE);
+
+        this.user_name = this.view.findViewById(R.id.user_name);
+        this.user_image = this.view.findViewById(R.id.user_image);
+
+        String user_name = this.mSharedPreferences.getString("name" , "");
+        String user_image = this.mSharedPreferences.getString("user_image" , "");
+
+
+        this.user_name.setText(user_name);
 
         fill_categories();
         this.categories_RV = this.view.findViewById(R.id.category_RV);
@@ -80,7 +103,6 @@ public class Home_Fragment extends Fragment {
 
         if(foods.size() == 0) {
             fill_foods();
-
         }
 
             food_adapter = new Food_Adapter(getContext(), filter_food(foods, 1));
@@ -92,7 +114,8 @@ public class Home_Fragment extends Fragment {
 
             foodRV.setLayoutManager(ll);
 
-        }
+
+    }
 
     void fill_categories (  ) {
 
@@ -100,8 +123,8 @@ public class Home_Fragment extends Fragment {
 
         this.my_categories.add(new Category(1,"Pizza" , R.drawable.ic_pizza));
         this.my_categories.add(new Category(2,"Burger" , R.drawable.ic_burger));
-        this.my_categories.add(new Category(4,"Coca" , R.drawable.ic_coca));
-        this.my_categories.add(new Category(3,"Tacos" , R.drawable.ic_frit));
+        this.my_categories.add(new Category(3,"Coca" , R.drawable.ic_coca));
+        this.my_categories.add(new Category(4,"Tacos" , R.drawable.ic_frit));
         this.my_categories.add(new Category(6,"Cake" , R.drawable.ic_gateau));
 
         this.my_categories.get(0).setId(1);
@@ -136,7 +159,6 @@ public class Home_Fragment extends Fragment {
         StringRequest request = new StringRequest(Request.Method.GET, HELPER.FOODS_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("{-> Response <-}" + response);
 
                 try {
                     JSONObject responseJson = new JSONObject(response);
@@ -165,7 +187,7 @@ public class Home_Fragment extends Fragment {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                 }
 
 
             }
@@ -175,7 +197,16 @@ public class Home_Fragment extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("{-> Response <-}" + error.getMessage());
+                progressDialog.dismiss();
+                Fragment selected_Error = null;
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+
+                    selected_Error = new Network_error_Fragment();
+                } else {
+                    selected_Error = new Error_Fragment();
+                }
+                ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout , selected_Error).commit();
+
             }
         });
 

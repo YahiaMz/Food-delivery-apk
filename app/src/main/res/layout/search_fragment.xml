@@ -3,17 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+
+    <EditText
+
+        android:layout_marginTop="16dp"
+
+        android:layout_marginHorizontal="8dp"
+        android:id="@+id/search_edit_text"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search Fragement"
-        android:textColor="@color/orange"
-        android:textSize="30dp"
+        android:background="@drawable/custom_edit_text002"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="16dp"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"
+        android:drawableStart="@drawable/search_icon_selector"
+        android:gravity="center_vertical"
+        android:drawablePadding="8dp"
+        android:text=""
+        android:hint="Search"
+
+        android:fontFamily="@font/sf_regular"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/searchRv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="16dp"
+
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/search_edit_text"
+        app:layout_constraintVertical_bias="1.0"
+        app:spanCount="2">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

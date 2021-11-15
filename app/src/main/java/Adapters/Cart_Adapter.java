@@ -73,7 +73,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.Cart_VH> {
 
         Cart_Item current_item = items.get(position);
 
-        Picasso.get().load(HELPER.URL + "/foods_images/"+current_item.getImage()).into(holder.image);
+        Picasso.get().load(HELPER.FOOD_IMAGES+current_item.getImage()).into(holder.image);
               holder.price.setText(current_item.getPrice() * current_item.getQuantity()+" Da");
               holder.name.setText(current_item.getName());
               holder.quantity.setText( this.full_number( current_item.getQuantity() ));
@@ -160,12 +160,6 @@ private int total_price ( ArrayList<Cart_Item> items) {
 
 }
 
-public  static  int has (int id) {
-        for ( int x = 0 ; x<items.size() ; x++) {
-            if(id == items.get(x).getId() ) { return x; }
-        }
-        return -1;
-}
 
 private  void change_DB_Quantity ( int quantity , int position ) {
     RequestQueue mQueue = Volley.newRequestQueue(this.context);
