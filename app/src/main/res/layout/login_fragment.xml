@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="24dp"
+
+    >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/login_btn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.10">
+
+
+                <EditText
+                    android:singleLine="true"
+                    android:inputType="textEmailAddress"
+                    android:background="@drawable/custom_edit_text001"
+                    android:id="@+id/email_for_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:drawablePadding="8dp"
+                    android:drawableStart="@drawable/email_selector"
+                    android:fontFamily="@font/sf_regular"
+                    android:hint="Enter Your Email"
+                    android:text="mzyahia1679@gmail.com"
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+
+                <EditText
+
+                    android:paddingEnd="12dp"
+                    android:background="@drawable/custom_edit_text001"
+                    android:id="@+id/password_for_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:drawablePadding="8dp"
+                    android:inputType="textPassword"
+                    android:drawableStart="@drawable/password_selector"
+                    android:fontFamily="@font/sf_regular"
+                    android:hint="Enter Your Password"
+                    android:drawableEnd="@drawable/ic_visibility_off"
+                    android:text="AzerbB1234;"
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+
+                <TextView
+                    android:layout_marginRight="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="end"
+                    android:text="Forget password"
+                    android:textColor="@color/blue"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+
+                    />
+
+
+        </LinearLayout>
+
+        <Button
+            android:layout_marginHorizontal="16dp"
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/add_to_cart_bg"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintVertical_bias="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
