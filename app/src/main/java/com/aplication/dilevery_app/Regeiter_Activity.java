@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Regester_Activity extends AppCompatActivity {
+public class Regeiter_Activity extends AppCompatActivity {
 
     private EditText eName , eEmail , ePassword , eConfirm_password;
     private Button btnRegister;
@@ -52,7 +52,8 @@ public class Regester_Activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                register();
+                //if(is_Password_Confirmed() && Valid_name() && Valid_Email() && Valid_Password() )
+                    register();
 
 
             }
@@ -96,23 +97,43 @@ public class Regester_Activity extends AppCompatActivity {
         this.btnRegister = findViewById(R.id.mBtn_Register);
     }
 
-    private boolean Valid_name ( String name) {
+    private boolean Valid_name () {
       //  Pattern pattern = Pattern.compile("[a-z][A-Z]");
         // Matcher mMatcher = pattern.matcher(name);
-        return  name.isEmpty();
+        return  eName.getText().toString().isEmpty();
     }
-    private boolean Valid_Email ( String email) {
+    private boolean Valid_Email ( ) {
         Pattern pattern = Pattern.compile("[a-z][A-Z]");
-        Matcher mMatcher = pattern.matcher(email);
-        return  mMatcher.matches();
+        Matcher mMatcher = pattern.matcher(eEmail.getText().toString());
+         if(mMatcher.matches()) {
+             return true;
+         } else {
+             this.eEmail.setError("Wrong Email !");
+             this.eEmail.requestFocus();
+             this.eEmail.setBackgroundResource(R.drawable.wrong_input_drawable);
+             return false;
+         }
     }
-    private boolean Valid_Password ( String password) {
-        Pattern pattern = Pattern.compile("[a-z][A-Z]");
-        Matcher mMatcher = pattern.matcher(password);
-        return  mMatcher.matches();
+    private boolean Valid_Password ( ) {
+
+        if(ePassword.getText().toString().length() >= 6) {
+            return  true;
+        } else {
+            this.ePassword.setError("Password at least 6 character");
+            this.ePassword.requestFocus();
+            this.ePassword.setBackgroundResource(R.drawable.wrong_input_drawable);
+            return  false;
+        }
+
     }
-    private boolean is_Password_Confirmed ( String password , String confirm_Password) {
-           return password.equals(confirm_Password);
+    private boolean is_Password_Confirmed ( ) {
+            if(ePassword.getText().toString() .equals(eConfirm_password.getText().toString())) {
+                return  true;
+            }else {
+                eConfirm_password.setError("Error Confirm password !");
+                return  false;
+            }
+
     }
 
 
@@ -135,11 +156,11 @@ public class Regester_Activity extends AppCompatActivity {
 
                          mEditor.putBoolean("is_login" , true);
                          mEditor.putInt("id" , mJSONUser.getInt("id") );
-                         mEditor.putString("name" , mJSONUser.getString("full_name"));
+                         mEditor.putString("name" , mJSONUser.getString("name"));
                          mEditor.putString("email" , mJSONUser.getString("email"));
                          mEditor.putString("phone_number" , mJSONUser.getString("phone_number"));
                          mEditor.putString("token" , mJSONResponse.getString("token"));
-                         mEditor.putString("photo" , mJSONResponse.getString("profile_photo_url"));
+                         mEditor.putString("photo" , mJSONUser.getString("profile_photo_url"));
 
                          mEditor.apply();
                          Toast.makeText(getApplicationContext(), "Register Success :)", Toast.LENGTH_SHORT).show();
@@ -151,12 +172,14 @@ public class Regester_Activity extends AppCompatActivity {
                          Toast.makeText(getApplicationContext(), "something wrong!", Toast.LENGTH_SHORT).show();
                      }
                 } catch (JSONException e) {
+                    Toast.makeText(getApplicationContext(), "catch: something wrong!", Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+
 
                 Fragment selected_Error = null;
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
@@ -175,7 +198,7 @@ public class Regester_Activity extends AppCompatActivity {
             protected Map<String, String> getParams() throws AuthFailureError {
 
                 Map<String , String> params = new HashMap<String , String>();
-                params.put("full_name" , eName.getText().toString());
+                params.put("name" , eName.getText().toString());
                 params.put("email" , eEmail.getText().toString());
                 params.put("password" , ePassword.getText().toString());
                 params.put("phone_number" , mSharedPreferences.getString("phone_number" , ""));

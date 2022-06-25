@@ -111,7 +111,6 @@
                 android:paddingVertical="10dp"
                 android:paddingStart="24dp"
                 android:singleLine="true"
-                android:text="0794514828"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/address_edit_text"

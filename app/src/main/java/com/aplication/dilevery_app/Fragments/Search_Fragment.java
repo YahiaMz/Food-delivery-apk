@@ -122,7 +122,8 @@ private Search_Food_adapter search_Food_adapter;
                                     jsonData.getString("name") ,
                                     jsonData.getString("image") ,
                                     jsonData.getInt("price"),
-                                    jsonData.getInt("id")
+                                    jsonData.getInt("id") ,
+                                    jsonData.getString("description")
                             ));
                         }
 

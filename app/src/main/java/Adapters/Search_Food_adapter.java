@@ -71,7 +71,7 @@ public class Search_Food_adapter extends RecyclerView.Adapter<Search_Food_adapte
         Food current_item = this.mFoods.get(position);
 
         Picasso.get().load(HELPER.FOOD_IMAGES  + current_item.getImage()).into(holder.image);
-        holder.price.setText(current_item.getPrice()  +"Da");
+        holder.price.setText(current_item.getPrice()-0.01  +HELPER.priceUnit);
         holder.name.setText(current_item.getName());
         holder.bAdd.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,15 +2,18 @@ package com.aplication.dilevery_app.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.SyncStateContract;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -32,6 +36,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.aplication.dilevery_app.HELPER;
 import com.aplication.dilevery_app.R;
+import com.aplication.dilevery_app.login_screen;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -41,6 +46,8 @@ import org.json.JSONObject;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import Adapters.Category_Adapter;
 import Adapters.Food_Adapter;
@@ -62,6 +69,9 @@ public class Home_Fragment extends Fragment {
     public static ArrayList<Food> foods = new ArrayList<>();
     // --------------------------------------------------- //
 
+    private PopupMenu popupMenu;
+
+
     SharedPreferences mSharedPreferences;
 
 
@@ -82,11 +92,16 @@ public class Home_Fragment extends Fragment {
         this.user_name = this.view.findViewById(R.id.user_name);
         this.user_image = this.view.findViewById(R.id.user_image);
 
-        String user_name = this.mSharedPreferences.getString("name" , "");
-        String user_image = this.mSharedPreferences.getString("user_image" , "");
+        String user_name = "Hi "+ this.mSharedPreferences.getString("name" , "");
+        String mUser_image = this.mSharedPreferences.getString("photo" , "");
 
 
+        Picasso.get().load(mUser_image).into(user_image);
         this.user_name.setText(user_name);
+
+        this.popupMenu = new PopupMenu(getContext() , this.user_image);
+        this.popupMenu.inflate(R.menu.popup_menu);
+
 
         fill_categories();
         this.categories_RV = this.view.findViewById(R.id.category_RV);
@@ -115,6 +130,37 @@ public class Home_Fragment extends Fragment {
             foodRV.setLayoutManager(ll);
 
 
+            this.popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+
+                    switch (item.getItemId()) {
+                        case R.id.logoutBtnMenu:
+                            Toast.makeText(getContext(), "Loging out ...", Toast.LENGTH_SHORT).show();
+                            SharedPreferences.Editor editor = mSharedPreferences.edit();
+                            editor.putBoolean("is_login" , false );
+                            editor.remove("token");
+                            editor.remove("name");
+                            editor.remove("email");
+
+                            editor.apply();
+                            Intent intent = new Intent(getContext() , login_screen.class);
+                            startActivity(intent);
+                            getActivity().finish();
+
+                            break;
+                    }
+
+                  return true;
+                }
+            });
+            this.user_image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                     popupMenu.show();
+                }
+            });
+
     }
 
     void fill_categories (  ) {
@@ -123,7 +169,7 @@ public class Home_Fragment extends Fragment {
 
         this.my_categories.add(new Category(1,"Pizza" , R.drawable.ic_pizza));
         this.my_categories.add(new Category(2,"Burger" , R.drawable.ic_burger));
-        this.my_categories.add(new Category(3,"Coca" , R.drawable.ic_coca));
+        this.my_categories.add(new Category(3,"Soda" , R.drawable.ic_coca));
         this.my_categories.add(new Category(4,"Tacos" , R.drawable.ic_frit));
         this.my_categories.add(new Category(6,"Cake" , R.drawable.ic_gateau));
 
@@ -171,7 +217,8 @@ public class Home_Fragment extends Fragment {
                                     jsonData.getString("name") ,
                                     jsonData.getString("image") ,
                                     jsonData.getInt("price"),
-                                    jsonData.getInt("id")
+                                    jsonData.getInt("id") ,
+                                    jsonData.getString("description")
                                     ));
                         }
 
@@ -213,6 +260,8 @@ public class Home_Fragment extends Fragment {
         queue.add(request);
 
     }
+
+
 
     public static ArrayList<Food> filter_food ( ArrayList<Food> foods , int category_id) {
         ArrayList<Food> result = new ArrayList<>();

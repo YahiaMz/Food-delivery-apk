@@ -115,12 +115,12 @@ public class sing_in_fragment extends Fragment {
 
                         JSONObject mUserData = mResponseJsonObject.getJSONObject("user");
                         mEditor.putInt("id", mUserData.getInt("id"));
-                        mEditor.putString("name" , mUserData.getString("full_name"));
+                        mEditor.putString("name" , mUserData.getString("name"));
                         mEditor.putString("email" , mUserData.getString("email"));
                         mEditor.putBoolean("is_login" , true);
                         mEditor.putString("token" , mResponseJsonObject.getString("token"));
                         mEditor.putString("phone_number" , mUserData.getString("phone_number"));
-                        mEditor.putString("photo" , mResponseJsonObject.getString("profile_photo_url"));
+                        mEditor.putString("photo" , mUserData.getString("profile_photo_url"));
 
                         mEditor.apply();
 

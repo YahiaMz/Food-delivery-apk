@@ -89,7 +89,7 @@ public class Food_Adapter extends RecyclerView.Adapter<Food_Adapter.Food_VH> {
          Picasso.get().load(HELPER.FOOD_IMAGES+current_Item.getImage()).into(holder.food_image);
 
          holder.food_name.setText(foods.get(position).getName() );
-         holder.food_price.setText(foods.get(position).getPrice()+" Da");
+         holder.food_price.setText(foods.get(position).getPrice()-0.01+ HELPER.priceUnit);
 
 
          holder.bAdd.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +112,7 @@ public class Food_Adapter extends RecyclerView.Adapter<Food_Adapter.Food_VH> {
                  intent.putExtra("image"  , foods.get(position).getImage());
                  intent.putExtra("price"  , foods.get(position).getPrice()  );
                  intent.putExtra("product_id" , foods.get(position).getId());
+                 intent.putExtra("desc" , foods.get(position).getDesc());
                  context.startActivity(intent);
 
 
@@ -167,7 +168,6 @@ private  void addFood_toCart( int product_id ) {
 
                         } else {
                             Toast.makeText(context.getApplicationContext(), "Sorry , Something Wrong !", Toast.LENGTH_SHORT).show();
-
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

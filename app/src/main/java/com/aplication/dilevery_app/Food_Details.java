@@ -51,6 +51,7 @@ public class Food_Details extends AppCompatActivity {
     private  void init() {
         this.bundle = getIntent().getExtras();
         mSharedPreferences = getSharedPreferences("User_Data" , MODE_PRIVATE);
+
         this.mAdd_To_Cart = findViewById(R.id.add_toCart_btn);
         this.incQuantity = findViewById(R.id.incQuantity);
         this.decQuantity = findViewById(R.id.decQuantity);
@@ -67,7 +68,7 @@ public class Food_Details extends AppCompatActivity {
 
         String imageUrl = bundle.getString("image");
         Picasso.get().load(HELPER.FOOD_IMAGES+imageUrl).into(food_image);
-        this.price.setText(bundle.getInt("price") +" DA");
+        this.price.setText(bundle.getInt("price") +HELPER.priceUnit);
         this.name.setText(bundle.getString("name"));
         this.description.setText(bundle.getString("desc"));
 

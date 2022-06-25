@@ -77,7 +77,7 @@ public class Cart_Fragment extends Fragment {
 
             fill_json_data();
 
-        this.total_price.setText(this.get_total(this.items) + " Da");
+        this.total_price.setText(this.get_total(this.items) + HELPER.priceUnit);
 
 
 
@@ -85,7 +85,7 @@ public class Cart_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
               Intent toPayment_Activity = new Intent(getContext() , payment_activity.class);
-              toPayment_Activity.putExtra("total_price" , get_total(items) + " Da");
+              toPayment_Activity.putExtra("total_price" , get_total(items) + HELPER.priceUnit);
               startActivity(toPayment_Activity);
               ((FragmentActivity)getContext()).getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout , new Empty_cart_Fragment()).commit();
             }
@@ -108,10 +108,10 @@ public class Cart_Fragment extends Fragment {
 
     } */
 
-    private  int get_total (ArrayList<Cart_Item> items) {
-        int total = 0;
+    private  float get_total (ArrayList<Cart_Item> items) {
+        float total = 0;
         for (int w = 0 ; w<items.size() ; w++) {
-            total +=items.get(w).getPrice() * items.get(w).getQuantity();
+            total +=(items.get(w).getPrice() - .01) * items.get(w).getQuantity();
         }
     return total;
     }
@@ -145,7 +145,6 @@ public class Cart_Fragment extends Fragment {
                                             , selected_Fragment).commit();
                                     mProgressDialog.dismiss();
 
-
                                 } else {
 
                                     for (int x = 0; x < mJsonArray.length(); x++) {
@@ -157,8 +156,7 @@ public class Cart_Fragment extends Fragment {
                                                 , mProduct.getString("name"),
                                                 mProduct.getInt("price"),
                                                 mProduct.getString("image")
-                                                , mDataObject.getInt("qu" +
-                                                "antity"),
+                                                , mDataObject.getInt("quantity"),
                                                 mProduct.getString("description"),
                                                 mDataObject.getInt("product_id")
                                                 ));
@@ -170,7 +168,7 @@ public class Cart_Fragment extends Fragment {
                                     LinearLayoutManager llm = new LinearLayoutManager(view.getContext());
                                     llm.setOrientation(RecyclerView.VERTICAL);
                                     cart_Rv.setLayoutManager(llm);
-                                    total_price.setText(get_total(items) + " Da");
+                                    total_price.setText(get_total(items) + HELPER.priceUnit);
 
                                  mProgressDialog.dismiss();
                                 }

@@ -7,7 +7,7 @@
     tools:context=".login_screen">
 
     <ImageView
-        android:foreground="@drawable/forground_login"
+
         android:id="@+id/imageView5"
         android:layout_width="match_parent"
         android:layout_height="230dp"
@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -35,9 +35,9 @@
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="0dp"
         android:fontFamily="@font/sf_regular"
-        android:text="Aqua Number 1"
+        android:text="Pizza Delivery App"
         android:textColor="@color/white"
         android:textSize="18dp"
         android:textStyle="bold"

@@ -17,6 +17,8 @@ public class HELPER {
     public  static final  String CATEGORIES_IMAGES = URL + "/images/categories/";
     public static final String ORDER_GET_STATE = URL + "/api/order/get-State/" ;
     public static final String REGISTER = URL + "/api/user/register";
+     public  static  final  String priceUnit = "  $";
+    public static final String LOGOUT = URL+"/api/user/logout";
 
 
 }

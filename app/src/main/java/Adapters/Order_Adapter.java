@@ -60,7 +60,7 @@ public class Order_Adapter extends RecyclerView.Adapter<Order_Adapter.Order_VH> 
 
         holder.itemsRV.setAdapter(current_Order.getFood_order_adapter());
         holder.addressTV.setText(current_Order.getAddress());
-        holder.total_PriceTv.setText(current_Order.getTotal_price()+" Da");
+        holder.total_PriceTv.setText(current_Order.getTotal_price()+HELPER.priceUnit);
         holder.orderTime.setText(current_Order.getTime());
         holder.bTrackOrder.setOnClickListener(new View.OnClickListener() {
             @Override

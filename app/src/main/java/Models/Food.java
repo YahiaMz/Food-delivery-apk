@@ -11,18 +11,30 @@ public class Food {
     private  int category_id;
     private String name;
     private String image ;
+    private String desc;
     private  int price;
 
-    public Food(int category_id, String name, String image, int price , int id) {
+    public Food(int category_id, String name, String image, int price , int id , String desc) {
         this.category_id = category_id;
         this.name = name;
         this.image = image;
         this.price = price;
         this.id = id;
+        this.desc = desc;
     }
 
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public int getCategory_id() {
         return category_id;

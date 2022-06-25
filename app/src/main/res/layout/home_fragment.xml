@@ -67,7 +67,7 @@
                     android:layout_height="match_parent"
                     android:id="@+id/user_image"
                     android:src="@drawable/profile_user"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitCenter"
                     ></ImageView>
 
             </com.google.android.material.card.MaterialCardView>

@@ -69,6 +69,10 @@ public class payment_activity extends AppCompatActivity {
         this.eAddress = findViewById(R.id.address_edit_text);
 
 
+
+
+        String phone_Number = this.mSharedPreferences.getString("phone_number" , "");
+        this.ePhone_Number.setText(phone_Number);
         this.bPlaceOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,9 +109,6 @@ public class payment_activity extends AppCompatActivity {
         this.mTotal_Price.setText(getIntent().getExtras().getString("total_price"));
 
 
-
-
-
     }
 
     private  boolean phoneValidator   ( ){
@@ -141,7 +142,7 @@ public class payment_activity extends AppCompatActivity {
                 try {
                     JSONObject mJSON_Response = new JSONObject(response);
                     if(mJSON_Response.getBoolean("success")){
-   //                        Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+   //                   Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                         create_Order_items(mJSON_Response.getInt("order_id"));
                         mCustom_dialog.dismiss();
                         Intent toOrderPlacedScreen = new Intent(getApplicationContext() , Order_Placed_Activity.class);
@@ -150,6 +151,7 @@ public class payment_activity extends AppCompatActivity {
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), "place Order Catch", Toast.LENGTH_SHORT).show();
                     mCustom_dialog.dismiss();
 
                 }
@@ -157,7 +159,7 @@ public class payment_activity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Place Order ------- " + error.toString(), Toast.LENGTH_SHORT).show();
                 mCustom_dialog.dismiss();
 
             }
@@ -194,12 +196,12 @@ public class payment_activity extends AppCompatActivity {
                     new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext()," Adding Item Response " + response, Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), " Adding Item" +error.toString(), Toast.LENGTH_SHORT).show();
             }
 
 
@@ -241,7 +243,6 @@ public class payment_activity extends AppCompatActivity {
                         try {
                             JSONObject mJsonResponse = new JSONObject(response);
                             if(mJsonResponse.getBoolean("success")) {
-
 
                             }
 

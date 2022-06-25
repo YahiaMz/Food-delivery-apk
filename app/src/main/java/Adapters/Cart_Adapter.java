@@ -74,7 +74,7 @@ public class Cart_Adapter extends RecyclerView.Adapter<Cart_Adapter.Cart_VH> {
         Cart_Item current_item = items.get(position);
 
         Picasso.get().load(HELPER.FOOD_IMAGES+current_item.getImage()).into(holder.image);
-              holder.price.setText(current_item.getPrice() * current_item.getQuantity()+" Da");
+              holder.price.setText(current_item.getPrice() * current_item.getQuantity()-0.01+" $");
               holder.name.setText(current_item.getName());
               holder.quantity.setText( this.full_number( current_item.getQuantity() ));
 
@@ -151,10 +151,10 @@ private String full_number( int x) {
     return  (x<10)? "0"+x : x+"";
 }
 
-private int total_price ( ArrayList<Cart_Item> items) {
-    int total = 0;
+private float total_price ( ArrayList<Cart_Item> items) {
+    float total = 0;
     for (int w = 0 ; w<items.size() ; w++) {
-        total +=items.get(w).getPrice() * items.get(w).getQuantity();
+        total +=(items.get(w).getPrice()- .01)  * items.get(w).getQuantity();
     }
     return total;
 
@@ -173,7 +173,7 @@ private  void change_DB_Quantity ( int quantity , int position ) {
 
                             Cart_Item current_item = items.get(position);
                             current_item.setQuantity(quantity);
-                            Cart_Fragment.total_price.setText(total_price(items) +" Da");
+                            Cart_Fragment.total_price.setText(total_price(items) +" $");
                             notifyItemChanged(position);
 
                         }
@@ -226,7 +226,7 @@ private void removeItem( int id , int pos) {
                             if(mJsonResponse.getBoolean("success")) {
 
                                 items.remove(pos);
-                                Cart_Fragment.total_price.setText(total_price(items) +" Da");
+                                Cart_Fragment.total_price.setText(total_price(items) +" $");
                                 notifyDataSetChanged();
                                 mProgressDialog.dismiss();
                                 if (items ==null || items.isEmpty()){

@@ -9,14 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.aplication.dilevery_app.R;
-import com.aplication.dilevery_app.Regester_Activity;
+import com.aplication.dilevery_app.Regeiter_Activity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -37,7 +36,7 @@ public class Activity_phone_number extends Fragment {
             @Override
             public void onClick(View v) {
                 if(phoneValidator()) {
-                    Intent intent = new Intent(getContext() , Regester_Activity.class);
+                    Intent intent = new Intent(getContext() , Regeiter_Activity.class);
 
                     SharedPreferences mSharedPreferences = getContext().getSharedPreferences("User_Data" , Context.MODE_PRIVATE);
                     SharedPreferences.Editor mEditor = mSharedPreferences.edit();
